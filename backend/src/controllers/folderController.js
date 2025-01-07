@@ -4,13 +4,16 @@ const folderController = {
   // Crear una carpeta
   createFolder: async (req, res) => {
     try {
-      const { name } = req.body
+      const { name, color } = req.body
       const userId = req.user.id
 
-      const newFolder = await FolderModel.createFolder(userId, name)
+      const newFolder = await FolderModel.createFolder(userId, name, color)
       if (newFolder) {
         res.status(201).json({
           message: 'Carpeta creada exitosamente',
+          name: name,
+          id: userId,
+          color: color,
         })
       } else {
         res.status(400).json({ message: 'Error al crear la carpeta' })
@@ -68,7 +71,7 @@ const folderController = {
     try {
       const folderId = req.params.folderId
       const userId = req.user.id // Desde el middleware de autenticación.
-      const { name } = req.body
+      const { name, color } = req.body
 
       // Verifica si la carpeta pertenece al usuario.
       const folder = await FolderModel.findByIdAndUser(folderId, userId)
@@ -79,7 +82,7 @@ const folderController = {
       }
 
       // Actualiza el nombre de la carpeta.
-      const result = await FolderModel.updateFolder(folderId, name)
+      const result = await FolderModel.updateFolder(folderId, name, color)
       if (result.affectedRows > 0) {
         res.status(200).json({ message: 'Carpeta actualizada exitosamente.' })
       } else {

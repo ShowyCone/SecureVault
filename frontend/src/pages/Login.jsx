@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState(null)
+  const { login } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
@@ -19,17 +21,16 @@ const Login = () => {
 
     setIsSubmitting(true)
     try {
-      // Enviar la solicitud de login
       const response = await axios.post('http://localhost:5000/auth/login', {
         email,
         password,
       })
 
-      if (response.data.success) {
-        // Si el login es exitoso, redirige al Dashboard
+      if (response.data.token) {
+        login(response.data.token)
         navigate('/dashboard')
       } else {
-        setError(response.data.message) // Muestra el error del servidor
+        setError(response.data.message)
       }
     } catch (error) {
       setError('An error occurred. Please try again later.')
@@ -61,7 +62,6 @@ const Login = () => {
         />
       </div>
 
-      {/* Mensaje de error */}
       {error && <div className='mb-4 text-red-500'>{error}</div>}
 
       <button
@@ -73,12 +73,12 @@ const Login = () => {
       </button>
 
       <div className='mt-4 flex justify-between'>
-        <a
-          href='/forgot-password'
+        <NavLink
+          to='/forgot-password'
           className='text-sm text-purple-500 hover:underline'
         >
           Forgot password?
-        </a>
+        </NavLink>
         <NavLink
           to='/register'
           className='text-sm text-purple-500 hover:underline'

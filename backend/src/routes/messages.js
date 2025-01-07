@@ -6,6 +6,11 @@ const router = express.Router()
 
 router.post('/', authMiddleware, MessageController.createMessage)
 router.get('/:folderId', authMiddleware, MessageController.getMessagesByFolder)
+router.get(
+  '/count/:folderId',
+  authMiddleware,
+  MessageController.getMessageCount
+)
 router.delete('/:messageId', authMiddleware, MessageController.deleteMessage)
 router.put('/:messageId', authMiddleware, MessageController.updateMessage)
 

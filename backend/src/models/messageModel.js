@@ -32,16 +32,20 @@ const MessageModel = {
     return result[0]
   },
   getMessage: async (id, decryptFlag) => {
-    const query = 'SELECT * FROM messages WHERE id = ?'
+    const query = 'SELECT * FROM messages WHERE folder_id = ?'
     const [rows] = await db.execute(query, [id])
 
     if (rows.length === 0) {
-      throw new Error('Message not found')
+      return []
     }
 
-    const message = rows[0]
-    message.content = decryptFlag ? decrypt(message.content) : message.content
-    return message
+    const message = rows
+    const decryptedMessages = message.map((msg) => ({
+      ...msg,
+      content: msg.encrypted ? decrypt(msg.content) : msg.content,
+    }))
+
+    return decryptedMessages
   },
 
   deleteMessage: async (messageId) => {
@@ -86,6 +90,19 @@ const MessageModel = {
     `
     const [rows] = await db.execute(query, [messageId])
     return rows[0] // Devuelve la relación mensaje-carpeta.
+  },
+
+  getMessageCount: async (folderId) => {
+    const query =
+      'SELECT COUNT(*) AS message_count FROM messages WHERE folder_id = ?'
+
+    const [result] = await db.execute(query, [folderId])
+
+    if (result.length === 0) {
+      throw new Error('No messages found for this folder')
+    }
+
+    return result[0].message_count
   },
 }
 

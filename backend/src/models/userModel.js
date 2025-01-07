@@ -16,14 +16,21 @@ const UserModel = {
   // Crear un nuevo usuario
   createUser: async (user, callback) => {
     const query = `
-      INSERT INTO users (username, email, password_hash) 
-      VALUES (?, ?, ?)
+      INSERT INTO users (email, password_hash) 
+      VALUES (?, ?)
     `
-    const result = await db.execute(query, [
-      user.username,
-      user.email,
-      user.password_hash,
-    ])
+    const result = await db.execute(query, [user.email, user.password_hash])
+
+    return result[0]
+  },
+
+  updatePassword: async (email, password) => {
+    const query = `
+      UPDATE users
+      SET password_hash = ?
+      WHERE email = ?
+    `
+    const result = await db.execute(query, [password, email])
 
     return result[0]
   },

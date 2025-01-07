@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.5",
     "nanoid": "^5.0.9",
+    "nodemailer": "^6.9.16",
     "uuid": "^11.0.3"
   },
   "type": "module"
