@@ -21,10 +21,13 @@ const Login = () => {
 
     setIsSubmitting(true)
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', {
-        email,
-        password,
-      })
+      const response = await axios.post(
+        'https://securevault-7jjj.onrender.com/auth/login',
+        {
+          email,
+          password,
+        }
+      )
 
       if (response.data.token) {
         login(response.data.token)

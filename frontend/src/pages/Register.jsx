@@ -29,10 +29,13 @@ const Register = () => {
     setIsSubmitting(true)
 
     try {
-      const response = await axios.post('http://localhost:5000/auth/register', {
-        email,
-        password,
-      })
+      const response = await axios.post(
+        'https://securevault-7jjj.onrender.com/auth/register',
+        {
+          email,
+          password,
+        }
+      )
       if (response.data.userId) {
         setSuccess('Registration successful! Redirecting...')
         setTimeout(() => navigate('/login'), 3000) // Redirigir después de 3 segundos

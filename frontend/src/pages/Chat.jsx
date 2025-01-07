@@ -35,7 +35,7 @@ const Chat = ({ folderInfo, onBack }) => {
       setIsLoading(true) // Mostrar loader
       try {
         const response = await axios.get(
-          `http://localhost:5000/messages/${folderInfo.id}`,
+          `https://securevault-7jjj.onrender.com/messages/${folderInfo.id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,

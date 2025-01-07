@@ -34,11 +34,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchFolders = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/folders', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+        const response = await axios.get(
+          'https://securevault-7jjj.onrender.com/folders',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        )
 
         const apiFolders = response.data.map((folder) => ({
           id: folder.id,
@@ -57,7 +60,7 @@ const Dashboard = () => {
   const handleCreateFolder = async (title, colorF) => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/folders/create',
+        'https://securevault-7jjj.onrender.com/folders/create',
         { name: title, color: colorF },
         {
           headers: {
@@ -81,7 +84,7 @@ const Dashboard = () => {
     if (editingFolder) {
       try {
         await axios.put(
-          `http://localhost:5000/folders/${editingFolder.id}`,
+          `https://securevault-7jjj.onrender.com/folders/${editingFolder.id}`,
           { name: title, color: colorF },
           {
             headers: {
@@ -103,11 +106,14 @@ const Dashboard = () => {
 
   const handleDeleteFolder = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/folders/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+      await axios.delete(
+        `https://securevault-7jjj.onrender.com/folders/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
       setFolders(folders.filter((folder) => folder.id !== id))
     } catch (error) {
       console.error('Error deleting folder:', error)

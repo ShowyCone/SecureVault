@@ -20,7 +20,7 @@ const FolderCard = ({ title, folderId, color, onEdit, onDelete }) => {
     const fetchMessageCount = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/messages/count/${folderId}`,
+          `https://securevault-7jjj.onrender.com/messages/count/${folderId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,

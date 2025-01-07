@@ -20,10 +20,9 @@ const ForgotPassword = () => {
     setIsSubmitting(true)
     try {
       const response = await axios.post(
-        'http://localhost:5000/auth/forgot-password',
+        'https://securevault-7jjj.onrender.com/auth/forgot-password',
         { email }
       )
-      console.log(response)
       if (response.data.message) {
         setMessage('A temporary password has been sent to your email.')
       } else {

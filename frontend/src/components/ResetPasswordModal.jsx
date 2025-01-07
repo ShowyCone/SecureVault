@@ -26,7 +26,7 @@ const ResetPasswordModal = ({ onClose }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/auth/reset-password',
+        'https://securevault-7jjj.onrender.com/auth/reset-password',
         {
           email,
           currentPassword,
@@ -34,7 +34,7 @@ const ResetPasswordModal = ({ onClose }) => {
         }
       )
 
-      if (response.data.success) {
+      if (response) {
         setMessage('Password reset successfully')
         setEmail('')
         setCurrentPassword('')
