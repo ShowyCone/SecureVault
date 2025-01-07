@@ -15,7 +15,7 @@ const AuthLayout = () => {
   }
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800'>
+    <div className='min-h-screen flex items-center justify-center bg-gray-300 dark:bg-gray-800'>
       <motion.div
         className='absolute top-4 right-4'
         initial={{ opacity: 0, y: -20 }}

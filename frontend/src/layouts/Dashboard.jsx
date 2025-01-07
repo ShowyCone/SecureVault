@@ -126,7 +126,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors'>
+    <div className='min-h-screen bg-gray-300 dark:bg-gray-900 transition-colors'>
       <Header isDark={isDark} onThemeToggle={toggleTheme} />
       <main className='px-4 sm:px-8 py-6'>
         {selectedFolder ? (
