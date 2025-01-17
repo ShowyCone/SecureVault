@@ -59,7 +59,7 @@ const FolderModel = {
 
   updateFolder: async (folderId, name, color) => {
     const query = 'UPDATE folders SET name = ?, color = ? WHERE id = ?'
-    const result = await db.execute(query, [name, folderId, color])
+    const result = await db.execute(query, [name, color, folderId])
     return result[0]
   },
 }
