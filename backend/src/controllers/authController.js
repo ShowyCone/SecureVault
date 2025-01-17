@@ -106,6 +106,26 @@ const UserController = {
       res.status(500).json({ message: 'An error occurred' })
     }
   },
+  confirmPassword: async (req, res) => {
+    const { password } = req.body
+    const userId = req.user.id // Desde el middleware de autenticación.
+
+    try {
+      const user = await UserModel.findById(userId)
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado.' })
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password_hash)
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Contraseña incorrecta.' })
+      }
+
+      res.json({ message: 'Contraseña correcta!', passwordMatch: true })
+    } catch (err) {
+      res.status(500).json({ message: 'Error en el inicio de sesión' })
+    }
+  },
 }
 
 export default UserController

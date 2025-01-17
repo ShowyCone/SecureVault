@@ -34,6 +34,18 @@ const UserModel = {
 
     return result[0]
   },
+
+  findById: async (id) => {
+    const query = 'SELECT * FROM users WHERE id = ?'
+
+    try {
+      const [rows] = await db.execute(query, [id])
+      return rows[0]
+    } catch (error) {
+      console.error('Error al ejecutar la consulta:', error)
+      throw error
+    }
+  },
 }
 
 export default UserModel
