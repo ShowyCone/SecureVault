@@ -7,6 +7,8 @@ import FolderCard from '../components/FolderCard'
 import Chat from '../pages/Chat'
 import FolderForm from '../components/FolderForm'
 import useTheme from '../hooks/useTheme'
+import ActionWithPassword from '../components/ActionWithPassword'
+import { toast } from 'react-toastify'
 
 const container = {
   hidden: { opacity: 0 },
@@ -29,6 +31,8 @@ const Dashboard = () => {
   const [selectedFolder, setSelectedFolder] = useState(null)
   const [showFolderForm, setShowFolderForm] = useState(false)
   const [editingFolder, setEditingFolder] = useState(null)
+  const [showModal, setShowModal] = useState(false)
+  const [folderToDelete, setFolderToDelete] = useState(null)
 
   // Fetch folders from the API
   useEffect(() => {
@@ -115,6 +119,10 @@ const Dashboard = () => {
         }
       )
       setFolders(folders.filter((folder) => folder.id !== id))
+      setShowModal(false)
+      toast.success('¡Mensaje eliminado correctamente!', {
+        position: 'top-center',
+      })
     } catch (error) {
       console.error('Error deleting folder:', error)
     }
@@ -123,6 +131,11 @@ const Dashboard = () => {
   const openFolderForm = (folder) => {
     setEditingFolder(folder || null)
     setShowFolderForm(true)
+  }
+
+  const openModal = (folder) => {
+    setShowModal(true)
+    setFolderToDelete(folder)
   }
 
   return (
@@ -150,9 +163,10 @@ const Dashboard = () => {
               variants={container}
               initial='hidden'
               animate='show'
-              className='grid grid-cols-auto-fit gap-6 justify-items-center'
+              className='grid grid-cols-auto-fit gap-6 justify-items-center w-full h-full' // Asegúrate de que ocupe todo el espacio disponible
               style={{
                 gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                position: 'relative', // Agregado para permitir que los elementos del grid no se interpongan con el modal
               }}
             >
               {folders.map((folder) => (
@@ -170,7 +184,7 @@ const Dashboard = () => {
                       folderId={folder.id}
                       color={folder.color}
                       onEdit={() => openFolderForm(folder)}
-                      onDelete={() => handleDeleteFolder(folder.id)}
+                      onDelete={() => openModal(folder)}
                     />
                   </div>
                 </motion.div>
@@ -188,6 +202,13 @@ const Dashboard = () => {
           }}
           initialTitle={editingFolder?.title}
           initialColor={editingFolder?.color}
+        />
+      )}
+      {showModal && (
+        <ActionWithPassword
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onConfirm={() => handleDeleteFolder(folderToDelete.id)}
         />
       )}
     </div>
